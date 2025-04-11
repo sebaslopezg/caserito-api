@@ -3,39 +3,38 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Producto;
+use App\Models\Venta;
 use Illuminate\Support\Facades\Validator;
 
-class productoController extends Controller
+class ventaController extends Controller
 {
     public function index(){
-        $producto = Producto::all();
+        $data = [
+            'status' => false,
+            'msg' => 'Error desconocido'
+        ];
+        $venta = Venta::all();
 
-        if ($producto->isEmpty()) {
+        if ($venta->isEmpty()) {
             $data = [
                 'status' => false,
-                'msg' => 'No se encontraron productos',
+                'msg' => 'No se encontraron ventas',
             ];
-            return response()->json($data, 200);
+        }else{
+            $data = [
+                'status' => true,
+                'msg' => 'Ventas encontradas',
+                'data' => $venta
+            ];
         }
 
-        $data = [
-            'status' => true,
-            'msg' => 'Productos encontrados',
-            'data' => $producto
-        ];
-
-        return response()->json($data, 200); 
+        return response()->json($data, 200);
     }
 
     public function store(Request $request){
-
         $validator = Validator::make($request->all(), [
-            'nombre' => 'required',
-            'descripcion' => 'required',
-            'stock' => 'required|min:1',
-            'imagen' => 'required',
-            'precio' => 'required|min:1',
+            'total' => 'required|min:1',
+            'recibido' => 'required|min:1',
         ]);
 
         if ($validator->fails()) {
@@ -47,65 +46,62 @@ class productoController extends Controller
             return response()->json($data, 400);
         }
 
-        $producto = Producto::create([
-            'nombre' => $request->nombre,
-            'descripcion' => $request->descripcion,
-            'stock' => $request->stock,
-            'imagen' => $request->imagen,
-            'precio' => $request->precio,
+        $venta = Venta::create([
+            'total' => $request->total,
+            'recibido' => $request->recibido,
         ]);
 
-        if (!$producto) {
+        if (!$venta) {
             $data = [
-                'msg' => 'Error al intentar crear el producto',
+                'msg' => 'Error al intentar registrar la venta',
                 'status' => false
             ];
             return response()->json($data, 500);
         }
 
         $data = [
-            'msg' => 'Producto creado exitosamente',
+            'msg' => 'Venta registrada exitosamente',
             'status' => true,
-            'data' => $producto
+            'data' => $venta
         ];
 
         return response()->json($data, 201);
     }
 
     public function show($id){
-        $producto = Producto::find($id);
+        $venta = Venta::find($id);
 
-        if (!$producto) {
+        if (!$venta) {
             $data = [
-                'msg' => 'Producto no encontrado',
+                'msg' => 'Venta no encontrada',
                 'status' => false,
             ];
             return response()->json($data, 400);
         }
         $data = [
-            'msg' => 'Producto encontrado',
+            'msg' => 'Venta encontrado',
             'status' => true,
-            'data' => $producto
+            'data' => $venta
         ];
         return response()->json($data, 200);
     }
 
     public function destroy($id){
-        $producto = Producto::find($id);
+        $venta = Venta::find($id);
 
-        if (!$producto) {
+        if (!$venta) {
             $data = [
-                'msg' => 'Producto no encontrado',
+                'msg' => 'Venta no encontrada',
                 'status' => false
             ];
 
             return response()->json($data, 400);
         }
 
-        $producto->delete();
+        $venta->delete();
 
         $data = [
-            'msg' => 'Producto eliminado',
+            'msg' => 'Venta eliminado',
             'status' => true,
         ];
 
@@ -113,21 +109,19 @@ class productoController extends Controller
     }
 
     public function update(Request $request, $id){
-        $producto = Producto::find($id);
+        $venta = Venta::find($id);
 
-        if (!$producto) {
+        if (!$venta) {
             $data = [
-                'msg' => 'No se pudo encontrar el producto',
+                'msg' => 'No se pudo encontrar la venta',
                 'status' => false,
             ];
             return response()->json($data, 404);
         }
 
         $validator = Validator::make($request->all(), [
-            'nombre' => 'required',
-            'descripcion' => 'required',
-            'stock' => 'required|min:1',
-            'precio' => 'required|min:1',
+            'total' => 'required|min:1',
+            'recibido' => 'required|min:1'
         ]);
 
         if ($validator->fails()) {
@@ -139,15 +133,13 @@ class productoController extends Controller
             return response()->json($data, 400);
         }
 
-        $producto->nombre = $request->nombre;
-        $producto->descripcion = $request->descripcion;
-        $producto->stock = $request->stock;
-        $producto->precio = $request->precio;
+        $venta->total = $request->total;
+        $venta->recibido = $request->recibido;
 
-        $producto->save();
+        $venta->save();
 
         $data = [
-            'msg' => 'producto Actualizado',
+            'msg' => 'Venta Actualizada',
             'status' => true,
         ];
 
@@ -155,19 +147,19 @@ class productoController extends Controller
     }
 
     public function updatePartial(Request $request, $id){
-        $producto = Producto::find($id);
+        $venta = Venta::find($id);
 
-        if (!$producto) {
+        if (!$venta) {
             $data = [
-                'msg' => 'No se pudo encontrar el producto',
+                'msg' => 'No se pudo encontrar la venta',
                 'status' => false,
             ];
             return response()->json($data, 404);
         }
 
         $validator = Validator::make($request->all(), [
-            'stock' => 'min:1',
-            'precio' => 'min:1',
+            'total' => 'required|min:1',
+            'recibido' => 'required|min:1'
         ]);
 
         if ($validator->fails()) {
@@ -179,15 +171,13 @@ class productoController extends Controller
             return response()->json($data, 400);
         }
 
-        $request->has('nombre') ? $producto->nombre = $request->nombre : '';
-        $request->has('descripcion') ? $producto->descripcion = $request->descripcion : '';
-        $request->has('stock') ? $producto->stock = $request->stock : '';
-        $request->has('precio') ? $producto->precio = $request->precio : '';
+        $request->has('total') ? $venta->total = $request->total : '';
+        $request->has('recibido') ? $venta->recibido = $request->recibido : '';
 
-        $producto->save();
+        $venta->save();
 
         $data = [
-            'msg' => 'Producto Actualizado',
+            'msg' => 'Venta Actualizada',
             'status' => true,
         ];
 
