@@ -15,6 +15,7 @@ class Items extends Model
         'producto_id',
         'precio',
         'cantidad',
+        'total',
     ];
 
     public function ventas(){
