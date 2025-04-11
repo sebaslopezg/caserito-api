@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('ventas', function (Blueprint $table) {
             $table->id();
             $table->double('total');
+            $table->double('recibido');
             $table->timestamps();
         });
     }
