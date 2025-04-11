@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Items;
 
 class Producto extends Model
 {
@@ -15,4 +16,8 @@ class Producto extends Model
         'stock',
         'precio',
     ];
+
+    public function items(){
+        return $this->belongsTo(Items::class);
+    }
 }

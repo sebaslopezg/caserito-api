@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Items;
 
 class Venta extends Model
 {
@@ -12,4 +13,8 @@ class Venta extends Model
         'total',
         'recibido',
     ];
+
+    public function items(){
+        return $this->belongsTo(Items::class);
+    }
 }
