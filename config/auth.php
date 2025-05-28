@@ -90,6 +90,8 @@ return [
     |
     */
 
+    'table' => 'users',
+
     'passwords' => [
         'users' => [
             'provider' => 'users',

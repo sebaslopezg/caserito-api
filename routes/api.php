@@ -2,17 +2,25 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\registroController;
 use App\Http\Controllers\productoController;
 use App\Http\Controllers\ventaController;
 use App\Http\Controllers\itemsController;
+use App\Http\Controllers\userController;
 
-//rutas Registro
-Route::get('/registro', [registroController::class, 'index']);
-Route::get('/registro/{id}', [registroController::class, 'show']);
-Route::post('/registro', [registroController::class, 'store']);
-Route::put('/registro/{id}', [registroController::class, 'update']);
-Route::delete('/registro/{id}', [registroController::class, 'destroy']);
+
+//rutas user
+Route::get('/user', [userController::class, 'index']);
+Route::get('/user/{id}', [userController::class, 'show']);
+Route::post('/user', [userController::class, 'store']);
+Route::put('/user/{id}', [userController::class, 'update']);
+Route::delete('/user/{id}', [userController::class, 'destroy']);
+Route::post('/tokens/create', function (Request $request) {
+
+    $token = $request->user()->createToken($request->token_name);
+
+    return ['token' => $token->plainTextToken];
+
+});
 
 //rutas Producto
 Route::get('/producto', [productoController::class, 'index']);
@@ -37,6 +45,7 @@ Route::post('/items', [itemsController::class, 'store']);
 Route::put('/items/{id}', [itemsController::class, 'update']);
 Route::patch('/items/{id}', [itemsController::class, 'updatePartial']);
 Route::delete('/items/{id}', [itemsController::class, 'destroy']);
+
 
 /* Route::get('/user', function (Request $request) {
     return $request->user();
