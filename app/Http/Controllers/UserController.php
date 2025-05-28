@@ -35,7 +35,7 @@ class UserController extends Controller
     public function store(Request $request){
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'email' => 'required|email|unique:user',
+            'email' => 'required|email|unique:users',
             'password' => 'required',
             //'telefono' => 'required|digits:10' //valida cantidad de digitos, 
             //'image' => 'required|image|dimensions:min_width=200,min_height=200, //valida cantidad de digitos 
@@ -93,7 +93,7 @@ class UserController extends Controller
         $data = [
             'msg' => 'Usuario encontrado',
             'status' => true,
-            'data' => $usuario
+            'data' => $user
         ];
         return response()->json($data, 200);
     }

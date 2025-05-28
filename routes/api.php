@@ -16,9 +16,9 @@ Route::put('/user/{id}', [userController::class, 'update']);
 Route::delete('/user/{id}', [userController::class, 'destroy']);
 Route::post('/tokens/create', function (Request $request) {
 
-    $token = $request->user()->createToken($request->token_name);
+  $token = $request->user()->createToken($request->token_name);
 
-    return ['token' => $token->plainTextToken];
+  return ['token' => $token->plainTextToken];
 
 });
 
