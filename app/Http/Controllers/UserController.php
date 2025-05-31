@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use GuzzleHttp\Promise\Create;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
@@ -35,7 +38,7 @@ class UserController extends Controller
     public function store(Request $request){
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'email' => 'required|email|unique:user',
+            'email' => 'required|email|unique:users',
             'password' => 'required',
             //'telefono' => 'required|digits:10' //valida cantidad de digitos, 
             //'image' => 'required|image|dimensions:min_width=200,min_height=200, //valida cantidad de digitos 
@@ -93,7 +96,7 @@ class UserController extends Controller
         $data = [
             'msg' => 'Usuario encontrado',
             'status' => true,
-            'data' => $usuario
+            'data' => $user
         ];
         return response()->json($data, 200);
     }
@@ -199,4 +202,57 @@ class UserController extends Controller
 
         return response()->json($data, 200);
     }
+
+    public function register(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8',
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        return response()->json([
+            'user' => $user,
+            'token' => $user->createToken('token-name')->plainTextToken,
+        ], 201);
+    }
+
+    public function login(Request $request){
+        $request -> validate([
+            'email' => 'required|string|email',
+            'password' => 'required|string'
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if (! $user || ! Hash::check($request->password, $user->password)){
+            throw ValidationException::withMessages([
+                'email' => ['The provided credentials are incorrect.'],
+            ]);
+        }
+        $data = [
+            'msg' => 'Sesión iniciada',
+            'status' => true,
+            'data' => $user->createToken('token-name')->plainTextToken
+        ];
+        return response()->json($data, 200);
+        /* return response()->json([
+            'user'->$user,
+            'token'->$user->createToken('token-name')->plainTextToken,
+        ], 201); */
+    }
+
+    public function logout(Request $request, $id){
+    $user = User::find($id);
+    $user->tokens()->delete();
+
+    return response()->json('Logged out successfully');
+    }
+
 }

@@ -9,18 +9,15 @@ use App\Http\Controllers\userController;
 
 
 //rutas user
+Route::post('/register', [userController::class, 'register']);
+Route::post('/login', [userController::class, 'login']);
+Route::delete('/logout/{id}', [userController::class, 'logout']);
+
 Route::get('/user', [userController::class, 'index']);
 Route::get('/user/{id}', [userController::class, 'show']);
 Route::post('/user', [userController::class, 'store']);
 Route::put('/user/{id}', [userController::class, 'update']);
 Route::delete('/user/{id}', [userController::class, 'destroy']);
-Route::post('/tokens/create', function (Request $request) {
-
-    $token = $request->user()->createToken($request->token_name);
-
-    return ['token' => $token->plainTextToken];
-
-});
 
 //rutas Producto
 Route::get('/producto', [productoController::class, 'index']);
