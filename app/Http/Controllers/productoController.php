@@ -52,7 +52,7 @@ class productoController extends Controller
             //$data['imagen'] = Storage::disk('public')->put('storage',$request->file('imagen'));
             $image = $request->file('imagen');
             $imageName = time().'.'.$image->getClientOriginalExtension();
-            $image->move(public_path('storage'), $imageName);
+            $path = $image->storeAs('productos', $imageName, 'public');
         }
         
 
@@ -60,7 +60,7 @@ class productoController extends Controller
             'nombre' => $request->nombre,
             'descripcion' => $request->descripcion,
             'stock' => $request->stock,
-            'imagen' => $imageName,
+            'imagen' => $path,
             'precio' => $request->precio,
         ]);
 
