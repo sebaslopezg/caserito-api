@@ -148,10 +148,17 @@ class productoController extends Controller
             return response()->json($data, 400);
         }
 
+        if ($request->has('imagen')){
+            $image = $request->file('imagen');
+            $imageName = time().'.'.$image->getClientOriginalExtension();
+            $path = $image->storeAs('productos', $imageName, 'public');
+        }
+
         $producto->nombre = $request->nombre;
         $producto->descripcion = $request->descripcion;
         $producto->stock = $request->stock;
         $producto->precio = $request->precio;
+        $producto->imagen = $path;
 
         $producto->save();
 
