@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\productoController;
 use App\Http\Controllers\ventaController;
 use App\Http\Controllers\itemsController;
-use App\Http\Controllers\userController;
+use App\Http\Controllers\UserController;
 
 
 //rutas user
