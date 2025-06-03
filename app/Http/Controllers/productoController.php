@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Producto;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rules\File;
 
 class productoController extends Controller
 {
@@ -34,7 +36,7 @@ class productoController extends Controller
             'nombre' => 'required',
             'descripcion' => 'required',
             'stock' => 'required|min:1',
-            'imagen' => 'required',
+            'imagen' => 'required|max:2048',
             'precio' => 'required|min:1',
         ]);
 
@@ -46,12 +48,19 @@ class productoController extends Controller
             ];
             return response()->json($data, 400);
         }
+        if ($request->has('imagen')){
+            //$data['imagen'] = Storage::disk('public')->put('storage',$request->file('imagen'));
+            $image = $request->file('imagen');
+            $imageName = time().'.'.$image->getClientOriginalExtension();
+            $path = $image->storeAs('productos', $imageName, 'public');
+        }
+        
 
         $producto = Producto::create([
             'nombre' => $request->nombre,
             'descripcion' => $request->descripcion,
             'stock' => $request->stock,
-            'imagen' => $request->imagen,
+            'imagen' => $path,
             'precio' => $request->precio,
         ]);
 
