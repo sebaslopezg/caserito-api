@@ -55,3 +55,43 @@ Route::delete('/items/{id}', [itemsController::class, 'destroy']);
   *reporte productos reseñados
 
   */
+
+
+
+  /*
+  
+  
+
+  //rutas Registro
+/registro'
+/registro/{id}
+/registro
+/registro/{id}
+/registro/{id}
+
+//rutas Producto
+/producto
+/producto/{id}
+/producto
+/producto/{id}
+/producto/{id}
+/producto/{id}
+
+//rutas Venta
+/venta
+/venta/{id}
+/venta
+/venta/{id}
+/venta/{id}
+/venta/{id}
+
+//rutas items
+/items
+/items/{id}
+/items
+/items/{id}
+/items/{id}
+/items/{id}
+  
+  
+  */
