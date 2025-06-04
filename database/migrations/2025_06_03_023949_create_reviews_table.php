@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('comentario');
             $table->integer('puntuacion');
+            $table->integer('status');
             $table->timestamps();
         });
     }
