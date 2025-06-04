@@ -6,6 +6,7 @@ use App\Http\Controllers\productoController;
 use App\Http\Controllers\ventaController;
 use App\Http\Controllers\itemsController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\reviewController;
 
 
 //rutas user
@@ -42,6 +43,12 @@ Route::post('/items', [itemsController::class, 'store']);
 Route::put('/items/{id}', [itemsController::class, 'update']);
 Route::patch('/items/{id}', [itemsController::class, 'updatePartial']);
 Route::delete('/items/{id}', [itemsController::class, 'destroy']);
+
+//rutas Reviews
+Route::get('/review', [reviewController::class, 'index']);
+Route::get('/review/{id}', [reviewController::class, 'show']);
+Route::post('/review', [reviewController::class, 'store']);
+Route::delete('/review/{id}', [reviewController::class, 'destroy']);
 
 
 /* Route::get('/user', function (Request $request) {
