@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('producto_id')->constrained('productos');
+            $table->double('producto_id');
             $table->string('nombre');
             $table->string('comentario');
             $table->integer('puntuacion');
