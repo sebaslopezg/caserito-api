@@ -36,7 +36,7 @@ Route::get('/producto', [productoController::class, 'index']);
 Route::get('/producto/{id}', [productoController::class, 'show']);
 Route::post('/producto', [productoController::class, 'store']);
 Route::put('/producto/{id}', [productoController::class, 'update']);
-Route::patch('/producto/{id}', [productoController::class, 'updatePartial']);
+Route::put('/producto/partial/{id}', [productoController::class, 'updatePartial']);
 Route::delete('/producto/{id}', [productoController::class, 'destroy']);
 
 //rutas Venta
