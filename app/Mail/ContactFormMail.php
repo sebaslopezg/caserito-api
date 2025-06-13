@@ -22,7 +22,7 @@ class ContactFormMail extends Mailable
 
     public function build()
     {
-        return $this->subject('New Contact Form Submission')
+        return $this->subject('Nueva reseña')
                     ->text('emails.plain');
     }
 }

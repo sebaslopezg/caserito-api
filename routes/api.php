@@ -6,24 +6,18 @@ use App\Http\Controllers\productoController;
 use App\Http\Controllers\ventaController;
 use App\Http\Controllers\itemsController;
 use App\Http\Controllers\UserController;
-<<<<<<< HEAD
 use App\Mail\ContactFormMail;
 use Illuminate\Support\Facades\Mail;
 
 Route::post('/contact', function (Request $request) {
     $validated = $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|email',
-        'message' => 'required|string',
+        'nombre' => 'required|string|max:255',
+        'mensaje' => 'required|string',
     ]);
-
     Mail::to('spamlulomail@gmail.com')->send(new ContactFormMail($validated));
 
     return response()->json(['message' => 'Email sent successfully.']);
 });
-=======
-use App\Http\Controllers\reviewController;
->>>>>>> c17521e6e4954d7c8d19567e3579b22035e4c64a
 
 
 //rutas user

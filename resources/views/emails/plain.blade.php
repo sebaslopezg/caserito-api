@@ -1,3 +1,2 @@
-Name: {{ $data['name'] }}
-Email: {{ $data['email'] }}
-Message: {{ $data['message'] }}
+Nombre: {{ $data['nombre'] }}
+Mensaje: {{ $data['mensaje'] }}
