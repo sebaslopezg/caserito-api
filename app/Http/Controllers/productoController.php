@@ -150,7 +150,7 @@ class productoController extends Controller
             return response()->json($data, 400);
         }
 
-        if ($request->has('imagen')){
+        if ($request->hasFile('imagen')){
             $image = $request->file('imagen');
             $imageName = time().'.'.$image->getClientOriginalExtension();
             $path = $image->storeAs('productos', $imageName, 'public');
