@@ -36,7 +36,7 @@ class productoController extends Controller
             'nombre' => 'required',
             'descripcion' => 'required',
             'stock' => 'required|min:1',
-            'imagen' => 'required|max:2048',
+            'imagen' => 'nullable|max:2048',
             'precio' => 'required|min:1',
         ]);
 
@@ -53,6 +53,8 @@ class productoController extends Controller
             $image = $request->file('imagen');
             $imageName = time().'.'.$image->getClientOriginalExtension();
             $path = $image->storeAs('productos', $imageName, 'public');
+        }else{
+            $path = '';
         }
         
 
