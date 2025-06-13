@@ -6,6 +6,7 @@ use App\Http\Controllers\productoController;
 use App\Http\Controllers\ventaController;
 use App\Http\Controllers\itemsController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\reviewController;
 use App\Mail\ContactFormMail;
 use Illuminate\Support\Facades\Mail;
 
