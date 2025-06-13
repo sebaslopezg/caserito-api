@@ -15,7 +15,7 @@ Route::post('/contact', function (Request $request) {
         'nombre' => 'required|string|max:255',
         'mensaje' => 'required|string',
     ]);
-    Mail::to('spamlulomail@gmail.com')->send(new ContactFormMail($validated));
+    Mail::to('caseritopostres2025@gmail.com')->send(new ContactFormMail($validated));
 
     return response()->json(['message' => 'Email sent successfully.']);
 });
